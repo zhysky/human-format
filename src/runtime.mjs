@@ -120,8 +120,15 @@ export function createPreset(runtime, engine) {
   fs.mkdirSync(runtime.cache, { recursive: true })
   const directory = fs.mkdtempSync(path.join(runtime.cache, 'preset-'))
   const file = path.join(directory, `${engine}.json`)
+  const ignoreFile = path.join(directory, 'empty.ignore')
   fs.writeFileSync(file, `${JSON.stringify(data, null, 2)}\n`)
-  return { file, data, cleanup: () => fs.rmSync(directory, { recursive: true, force: true }) }
+  fs.writeFileSync(ignoreFile, '')
+  return {
+    file,
+    data,
+    ignoreFile,
+    cleanup: () => fs.rmSync(directory, { recursive: true, force: true }),
+  }
 }
 
 export function npmCli() {

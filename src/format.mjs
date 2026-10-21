@@ -1,5 +1,4 @@
 import fs from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import { checkedRun, createPreset, runEngine } from './runtime.mjs'
 import { formatVueFiles } from './vue.mjs'
@@ -70,14 +69,14 @@ export function selectFiles(explicit, cwd = process.cwd()) {
   ].sort()
 }
 
-export function engineArgs(engine, config, files, check) {
+export function engineArgs(engine, config, files, check, ignoreFile) {
   if (engine === 'oxfmt')
     return [
       '--config',
       config,
       '--disable-nested-config',
       '--ignore-path',
-      os.devNull,
+      ignoreFile,
       check ? '--check' : '--write',
       '--',
       ...files,
@@ -131,7 +130,11 @@ export async function formatFiles(runtime, engine, files, check) {
       code = await formatVueFiles(runtime, engine, vue, preset, check)
     }
     if (other.length) {
-      const result = runEngine(runtime, engine, engineArgs(engine, preset.file, other, check))
+      const result = runEngine(
+        runtime,
+        engine,
+        engineArgs(engine, preset.file, other, check, preset.ignoreFile),
+      )
       if (result.stdout) process.stdout.write(result.stdout)
       if (result.stderr) process.stderr.write(result.stderr)
       const nativeCode = engine === 'dprint' && check && result.status === 20 ? 1 : result.status

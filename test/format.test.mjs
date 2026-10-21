@@ -12,9 +12,11 @@ function fixture(t) {
   t.after(() => fs.rmSync(root, { recursive: true, force: true }))
   const project = path.join(root, 'project with spaces')
   fs.mkdirSync(project)
+  const emptyGitConfig = path.join(root, 'empty.gitconfig')
+  fs.writeFileSync(emptyGitConfig, '')
   const env = {
     HUMAN_FORMAT_HOME: path.join(root, 'tool data'),
-    GIT_CONFIG_GLOBAL: os.devNull,
+    GIT_CONFIG_GLOBAL: emptyGitConfig,
     GIT_CONFIG_NOSYSTEM: '1',
   }
   const git = args => checkedRun('git', args, { cwd: project, env, trim: false })
