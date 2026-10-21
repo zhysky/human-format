@@ -1,0 +1,28 @@
+{
+  "name": "human-format",
+  "version": "0.1.0",
+  "description": "Readable formatting for changed files, with Oxfmt, dprint and Biome.",
+  "type": "module",
+  "bin": { "human-format": "bin/human-format.mjs" },
+  "files": ["bin", "src", "presets", "install.sh", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node --test",
+    "test:install": "node scripts/verify-install.mjs",
+    "test:versions": "node scripts/verify-versions.mjs"
+  },
+  "engines": { "node": ">=22.20.0" },
+  "repository": { "type": "git", "url": "https://github.com/zhysky/human-format.git" },
+  "homepage": "https://github.com/zhysky/human-format#readme",
+  "bugs": "https://github.com/zhysky/human-format/issues",
+  "author": "zhysky",
+  "license": "MIT",
+  "dependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@dprint/typescript": "0.96.1",
+    "@vue/compiler-sfc": "3.3.13",
+    "dprint": "0.64.1",
+    "dprint-plugin-malva": "0.16.0",
+    "dprint-plugin-markup": "0.27.6",
+    "oxfmt": "0.74.0"
+  }
+}
